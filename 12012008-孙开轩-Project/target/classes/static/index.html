@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charSet="UTF-8"/>
+    <title>Highcharts</title>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+</head>
+<body>
+<div id="name"
+     style="width:auto;height:50px;margin:0 auto;text-align:center;font-family: Arial, sans-serif;font-size: 24px;color: #369;">
+    GITHUB REPO
+</div>
+<div style="text-align:center;">
+    <button id="button" type="button" onclick="changebtn()"
+            style="width:auto;height:auto;margin:0 auto;text-align:center;font-family: Arial, sans-serif;font-size: 24px;color: #369;">
+        load
+    </button>
+</div>
+<h4 id="Top5" style="text-align: center;">Top5 developers</h4>
+<table border="1" align="center" id="table">
+    <tr>
+        <th>Name</th>
+        <th>Commit_times</th>
+        <th>nickname</th>
+        <th>email</th>
+        <th>github_id</th>
+    </tr>
+</table>
+<script>
+    var REPO = 0
+    var developers1;
+    var developers2;
+    var commit1;
+    var commit2;
+    var graph1_data1 = [];
+    var graph1_data2 = [];
+    var graph2_data1 = [];
+    var graph2_data2 = [];
+    var graph3_data1 = [];
+    var graph3_data2 = [];
+    var graph4_data1 = [];
+    var graph4_data2 = [];
+    var total1;
+    var total2;
+
+    function main() {
+        $.ajax({
+            url: '/developer/top1',	//这是后端接口的url
+            method: 'get',
+            success: function (res) {
+                developers1 = res;
+                for (let i = 0; i < developers1.length; i += 5) {
+                    graph1_data1.push([developers1[i], parseInt(developers1[i + 1])])
+                }
+            },
+        })
+
+        $.ajax({
+            url: '/developer/top2',	//这是后端接口的url
+            method: 'get',
+            success: function (res) {
+                developers2 = res;
+                for (let i = 0; i < developers2.length; i += 5) {
+                    graph1_data2.push([developers2[i], parseInt(developers2[i + 1])])
+                }
+            },
+        })
+
+        $.ajax({
+            url: '/developer/total1',	//这是后端接口的url
+            method: 'get',
+            success: function (res) {
+                commit1 = res;
+            },
+        })
+        $.ajax({
+            url: '/developer/total2',	//这是后端接口的url
+            method: 'get',
+            success: function (res) {
+                commit2 = res;
+            },
+        })
+        //graph1
+
+
+        $.ajax({
+            url: '/issue/getInfo1',	//这是后端接口的url
+            method: 'get',
+            success: function (res) {
+                graph2_data1 = res;
+            },
+        })
+        $.ajax({
+            url: '/issue/getInfo2',	//这是后端接口的url
+            method: 'get',
+            success: function (res) {
+                graph2_data2 = res;
+            },
+        })
+        $.ajax({
+            url: '/release/hour1',	//这是后端接口的url
+            method: 'get',
+            success: function (res) {
+                graph3_data1 = res;
+            },
+        })
+        $.ajax({
+            url: '/release/hour2',	//这是后端接口的url
+            method: 'get',
+            success: function (res) {
+                graph3_data2 = res;
+            },
+        })
+        $.ajax({
+            url: '/release/total1',	//这是后端接口的url
+            method: 'get',
+            success: function (res) {
+                total1 = res;
+            },
+        })
+        $.ajax({
+            url: '/release/total2',	//这是后端接口的url
+            method: 'get',
+            success: function (res) {
+                total2 = res;
+            },
+        })
+        $.ajax({
+            url: '/release/count1',	//这是后端接口的url
+            method: 'get',
+            success: function (res) {
+                graph4_data1 = res;
+            },
+        })
+        $.ajax({
+            url: '/release/count2',	//这是后端接口的url
+            method: 'get',
+            success: function (res) {
+                graph4_data2 = res;
+            },
+        })
+    }
+
+    function fresh1() {
+        var chart = {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        };
+        var title = {
+            text: 'Developers'
+        };
+        var subtitle;
+        if (REPO == 0) {
+            subtitle = {
+                text: 'Total developers:' + commit1
+            };
+        } else {
+            subtitle = {
+                text: 'Total developers:' + commit2
+            };
+        }
+        var tooltip = {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        };
+        var plotOptions = {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}%</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        };
+        var series;
+        if (REPO === 0) {
+            for (let i = 0; i < developers1.length; i += 5) {
+                table.innerHTML += "<tr><td>" + developers1[i] + "</td><td>" + developers1[i + 1] + "</td><td>" + developers1[i + 2] +
+                    "</td><td>" + developers1[i + 3] + "</td><td>" + developers1[i + 4] + "</td></tr>";
+            }
+            series = [{
+                type: 'pie',
+                name: 'Browser share',
+                data: graph1_data1
+            }];
+        } else {
+            for (let i = 0; i < developers2.length; i += 5) {
+                table.innerHTML += "<tr><td>" + developers2[i] + "</td><td>" + developers2[i + 1] + "</td><td>" + developers2[i + 2] +
+                    "</td><td>" + developers2[i + 3] + "</td><td>" + developers2[i + 4] + "</td></tr>";
+            }
+            series = [{
+                type: 'pie',
+                name: 'Browser share',
+                data: graph1_data2
+            }];
+        }
+        var json = {};
+        json.chart = chart;
+        json.title = title;
+        json.subtitle = subtitle;
+        json.tooltip = tooltip;
+        json.series = series;
+        json.plotOptions = plotOptions;
+        $('#developers').highcharts(json);
+    }
+
+    function fresh2() {
+        var chart = {
+            type: 'bar'
+        };
+        var title = {
+            text: 'issues'
+        };
+        var subtitle = {
+            text: 'Open issues:' + graph2_data1[0] + '    ' + 'Close issues:' + graph2_data1[1]
+        };
+        var xAxis = {
+            categories: ['avg', 'range', 'variance'],
+            title: {
+                text: null
+            }
+        };
+        var yAxis = {
+            min: 0,
+            title: {
+                text: 'Solution Time (Hours)',
+                align: 'high'
+            },
+            labels: {
+                overflow: 'justify'
+            }
+        };
+        var tooltip = {
+            valueSuffix: 'hours'
+        };
+        var plotOptions = {
+            bar: {
+                dataLabels: {
+                    enabled: true
+                }
+            }
+        };
+        var legend = {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'top',
+            x: -40,
+            y: 100,
+            floating: true,
+            borderWidth: 1,
+            backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+            shadow: true
+        };
+        var credits = {
+            enabled: false
+        };
+        var series;
+        if (REPO === 0) {
+            series = [{
+                data: [graph2_data1[2], graph2_data1[3], graph2_data1[4]]
+            }];
+        } else {
+            series = [{
+                data: [graph2_data2[2], graph2_data2[3], graph2_data2[4]]
+            }];
+        }
+        var json = {};
+        json.chart = chart;
+        json.title = title;
+        json.subtitle = subtitle;
+        json.tooltip = tooltip;
+        json.xAxis = xAxis;
+        json.yAxis = yAxis;
+        json.series = series;
+        json.plotOptions = plotOptions;
+        json.legend = legend;
+        json.credits = credits;
+        $('#issues').highcharts(json);
+    }
+
+    function fresh3() {
+        var title = {
+            text: 'Commit Time'
+        };
+        var xAxis = {
+            categories: ['0:00', '1:00', '2:00', '3:00', '4:00', '5:00', '6:00', '7:00', '8:00',
+                '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00',
+                '19:00', '20:00', '21:00', '22:00', '23:00']
+        };
+        var yAxis = {
+            title: {
+                text: 'Times'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        };
+
+        var tooltip = {
+            valueSuffix: 'times'
+        }
+
+        var legend = {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        };
+        var series;
+        if (REPO == 0)
+            series = [{
+                data: graph3_data1
+            }];
+        else {
+            series = [{
+                data: graph3_data2
+            }]
+        }
+
+        var json = {};
+
+        json.title = title;
+        json.xAxis = xAxis;
+        json.yAxis = yAxis;
+        json.tooltip = tooltip;
+        json.legend = legend;
+        json.series = series;
+        $('#commit_time').highcharts(json);
+    }
+
+    function fresh4() {
+        var chart = {
+            type: 'column'
+        };
+        var title = {
+            text: 'Release'
+        };
+        var subtitle;
+        if (REPO === 0)
+            subtitle = {
+                text: 'Total Release: ' + total1
+            };
+        else {
+            subtitle = {
+                text: 'Total Release: ' + total2
+            };
+        }
+        var xAxis = {
+            categories: [],
+            crosshair: true
+        };
+        var yAxis = {
+            min: 0,
+            title: {
+                text: 'commit times'
+            }
+        };
+        var tooltip = {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f} times</b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        };
+        var plotOptions = {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        };
+        var credits = {
+            enabled: false
+        };
+        var series
+        if (REPO===0){
+            series = [{
+                data: graph4_data1
+            }];
+        }
+        else {
+            series = [{
+                data: graph4_data2
+            }];
+        }
+
+        var json = {};
+        json.chart = chart;
+        json.title = title;
+        json.subtitle = subtitle;
+        json.tooltip = tooltip;
+        json.xAxis = xAxis;
+        json.yAxis = yAxis;
+        json.series = series;
+        json.plotOptions = plotOptions;
+        json.credits = credits;
+        $('#graph4').highcharts(json);
+    }
+    main();
+    changebtn();
+</script>
+<script>
+
+    function changebtn() {
+        // var top5=document.getElementById("Top5");
+        // top5.style.visibility=visable;
+        // var table=document.getElementById("table");
+        // table.style.visibility=true;
+        if (REPO === 0)
+            REPO = 1
+        else
+            REPO = 0
+        var button=document.getElementById("button");
+        button.innerHTML='load'+REPO.toString();
+        var table = document.getElementById("table");
+        while (table.childElementCount > 1) {
+            table.lastChild.remove();
+        }
+        fresh1()
+        fresh2()
+        fresh3()
+        fresh4()
+    }
+</script>
+
+<div id="developers" style="max-width:1000px;height:400px;margin:0 auto;"></div>
+<div id="issues" style="max-width:1000px;height:400px;margin:0 auto;"></div>
+<div id="commit_time" style="max-width:1000px;height:400px;margin:0 auto;"></div>
+<div id="graph4" style="width: 550px; height: 400px; margin: 0 auto"></div>
+</body>
+</html>
