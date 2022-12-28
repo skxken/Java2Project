@@ -1,4 +1,5 @@
 package com.example.springproject.model;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -21,14 +22,13 @@ public class developer {
 
     }
 
-    public developer(String username,String nickname,String email,String github_id,int commit_times,int repo)
-    {
-        this.username=username;
-        this.nickname=nickname;
-        this.email=email;
-        this.commit_times=commit_times;
-        this.github_id=github_id;
-        this.repo=repo;
+    public developer(String username, String nickname, String email, String github_id, int commit_times, int repo) {
+        this.username = username;
+        this.nickname = nickname;
+        this.email = email;
+        this.commit_times = commit_times;
+        this.github_id = github_id;
+        this.repo = repo;
     }
 
     public Long getId() {

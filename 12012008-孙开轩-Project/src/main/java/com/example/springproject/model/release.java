@@ -1,4 +1,5 @@
 package com.example.springproject.model;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,13 +13,12 @@ public class release {
     private Long id;
     private String release_time;
     private int repo;
-    public release(){
+    public release() {
 
     }
-    public release(String release_time,int repo)
-    {
-        this.release_time=release_time;
-        this.repo=repo;
+    public release(String release_time, int repo) {
+        this.release_time = release_time;
+        this.repo = repo;
     }
 
     public void setId(Long id) {

@@ -1,4 +1,5 @@
 package com.example.springproject.repository;
+
 import com.example.springproject.model.open_issue;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -17,11 +17,13 @@ public class RepoController {
 
     /**
      * 读取json文件，返回json串
+     *
      * @param fileName
      * @return
      */
     @Autowired
     DeveloperRepository developerRepository;
+
     public static String readJsonFile(String fileName) {
         String jsonStr = "";
         try {
@@ -72,10 +74,10 @@ public class RepoController {
 
         //arrayList.add(""+JsonPath.read(document, "$.repo"));
         arrayList.add(String.valueOf(developerRepository.findAllByRepo(1)));
-        arrayList.add(""+JsonPath.read(document, "$.developers"));
-        arrayList.add(""+JsonPath.read(document, "$.most_active_developer.login"));
-        arrayList.add(""+JsonPath.read(document, "$.open_issues"));
-        arrayList.add(""+JsonPath.read(document, "$.close_issues"));
+        arrayList.add("" + JsonPath.read(document, "$.developers"));
+        arrayList.add("" + JsonPath.read(document, "$.most_active_developer.login"));
+        arrayList.add("" + JsonPath.read(document, "$.open_issues"));
+        arrayList.add("" + JsonPath.read(document, "$.close_issues"));
 
         return arrayList;
     }

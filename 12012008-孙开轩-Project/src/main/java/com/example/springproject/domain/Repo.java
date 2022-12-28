@@ -29,7 +29,7 @@ public class Repo {
         this.releases_commits = releases_commits;
     }
 
-    public Repo(){
+    public Repo() {
         this.name = "name";
         this.developerNum = 0;
         this.most_active_developer = 0;

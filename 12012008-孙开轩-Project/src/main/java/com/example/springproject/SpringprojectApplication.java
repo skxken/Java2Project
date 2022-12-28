@@ -9,9 +9,9 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class SpringprojectApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(SpringprojectApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(SpringprojectApplication.class, args);
+    }
 
 	/*@Bean
 	public CommandLineRunner commandLineRunner(RepoServiceImpl service){

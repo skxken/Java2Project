@@ -1,4 +1,5 @@
 package com.example.springproject.model;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -14,15 +15,14 @@ public class commit {
     private int commit_hour;
     private int repo;
 
-    public commit(){
+    public commit() {
 
     }
 
-    public commit(String time,int commit_hour,int repo)
-    {
-        this.time=time;
-        this.commit_hour=commit_hour;
-        this.repo=repo;
+    public commit(String time, int commit_hour, int repo) {
+        this.time = time;
+        this.commit_hour = commit_hour;
+        this.repo = repo;
     }
 
 

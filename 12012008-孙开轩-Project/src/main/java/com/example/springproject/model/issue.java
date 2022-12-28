@@ -1,4 +1,5 @@
 package com.example.springproject.model;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,12 +16,11 @@ public class issue {
     private int opening_days;
     private int repo;
 
-    public issue(String open_time,String close_time,int opening_days,int repo)
-    {
-        this.open_time=open_time;
-        this.close_time=close_time;
-        this.opening_days=opening_days;
-        this.repo=repo;
+    public issue(String open_time, String close_time, int opening_days, int repo) {
+        this.open_time = open_time;
+        this.close_time = close_time;
+        this.opening_days = opening_days;
+        this.repo = repo;
     }
 
     public issue() {
